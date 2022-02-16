@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .lessons{
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-evenly;
+        
+        }
+        .lesson{
+            height: 150px;
+            width: 220px;
+            border: 2px skyblue solid;
+
+        }
+    </style>
+<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+
+<script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.min.js"></script>
+       
+<script src="https://unpkg.com/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.js"></script></head>
+<body>
+    <div id='store'>
+        <section class="lessons">
+    <!--Displays each lesson stored in the lessons array-->
+        <div class="lesson" v-for='lesson in lessons'>
+            <ul> 
+
+            <p>Topic: {{lesson.topic}}</p>
+            <p>Location: {{lesson.location}}</p>
+            <p>Price: {{lesson.price}}</p>
+            <p>space : {{lesson.space}}</p>
+            <img v-bind:src="lesson.image">
+            <button v-on:click="buyItem(lesson)" >BUY</button>
+            {{status}}
+
+        </ul>
+        </div>
+</section>
+
+
+     
+    </div>
+    <script>
+
+        let store = new Vue({
+            el: '#store',
+            data: {
+                lessons: [],
+                order:{
+                    topic: '',
+                    price: '',
+                    location:'',
+                    space: ''      
+              }
+              ,
+              status:''
+            },
+            created: function () {
+                console.log('requesting data from server ...')
+
+                fetch('http://localhost:3000/collection/lessons',{
+            method: "GET", // set the HTTP method as 'POST'
+            headers: {
+                'Content-Type': 'application/json', // set the data type as JSON
+            }
+                }).then(function (response) {
+                                response.json().then(
+                                    function (json) {
+                                        // save the returned JSON object to
+                                        // 'lessons' data property
+                                        store.lessons = json;
+                                        for( i in json){
+                                            console.log(i)
+                                        }
+                                        
+                                    });
+                            }
+                        )
+                    },
+            methods:{ 
+             async  buyItem (lesson){
+                 const newProduct = { name: lesson.topic, phonoNumber: 0505050, id: lesson.id, space: lesson.space };
+                 const lessonID = lesson._id
+                 const spacecounter = lesson.space
+                 const spacecount = {space : spacecounter--}
+
+                 const response = await fetch('http://localhost:3000/collection/order',{
+                    method: "POST", // set the HTTP method as 'POST'
+                    headers: {
+                        'Content-Type': 'application/json', // set the data type as JSON
+                    },
+                    body: JSON.stringify(newProduct), // need to stringify the JSON object
+                        })
+
+                const result = await response.json()  
+                                                .then(function(json){
+                                            
+                                            // save the returned JSON object to
+                                            // 'lessons' data property
+                                            store.status = spacecount;
+                                        
+                                                })
+                 
+                   const response2 = await    fetch("http://localhost:3000/collection/lessons/61f3cbcfc439c849fd5ebc6f/Web DEV/1",{
+                                            method: "PUT", // set the HTTP method as 'POST'
+                                            headers: {
+                                                'Content-Type': 'application/json', // set the data type as JSON
+                                            }, body: JSON.stringify(spacecount), // need to stringify the JSON object
+                                                 })
+                                                 .then (function(json){
+                                                     store.status = json
+                                                 })
+                                                 .catch(
+                                                    function (error) {
+                                                    store.status= error;
+                                                }); 
+
+
+              /*  fetch('http://localhost:3000/collection/order',{
+                method: "POST", // set the HTTP method as 'POST'
+                headers: {
+                    'Content-Type': 'application/json', // set the data type as JSON
+                },
+                body: JSON.stringify(newProduct), // need to stringify the JSON object
+                    }).then(function (response) {
+                                    response.json()
+                                    .then(
+                                        function (json) {
+
+                                            const lessonID = lesson._id
+                                            const spacecounter = lesson.space
+                                            const spacecount = {space :spacecounter--}
+                                            // save the returned JSON object to
+                                            // 'lessons' data property
+                                            store.status = lessonID;
+                                            fetch('http://localhost:3000/collection/lessons/lessonID',{
+                                            method: "PUT", // set the HTTP method as 'POST'
+                                            headers: {
+                                                'Content-Type': 'application/json', // set the data type as JSON
+                                            }, body: JSON.stringify(spacecount), // need to stringify the JSON object
+                                                 }).then(function (response) {})
+
+                    
+                                        });
+                                        response.json()
+                                    .catch(
+                                        function (error) {
+                                        store.status= error;
+                                    });
+                                }) */
+
+                        
+                }
+            }
+
+                })
+    </script>
+</body>
+</html>
