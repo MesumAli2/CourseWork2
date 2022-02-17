@@ -146,7 +146,9 @@ let store = new Vue({
                                             fetch('http://localhost:3000/collection/lessons/${lessonID}',{
                                             method: "PUT", // set the HTTP method as 'POST'
                                             headers: {
-                                                'Content-Type': 'application/json', // set the data type as JSON
+                                                'Content-Type': 'application/json',
+                                                'mode' : 'no-cors'
+                                             // set the data type as JSON
                                             }, body: JSON.stringify(spacecount), // need to stringify the JSON object
                                                  }).then(function (response) {})
                                                  
