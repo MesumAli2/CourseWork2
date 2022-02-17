@@ -1,5 +1,7 @@
 // Import dependencies modules:
 const express = require('express')
+const cors = require('cors');
+
 // const bodyParser = require('body-parser')
 
 var path = require("path");
@@ -8,6 +10,7 @@ var fs = require("fs");
 const app = express()
 
 // config Express.js
+app.use(cors())
 app.use(express.json())
 app.set('port', 3000)
 app.use ((req,res,next) => {
