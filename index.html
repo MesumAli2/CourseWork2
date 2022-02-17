@@ -38,10 +38,7 @@
 
         </ul>
         </div>
-</section>
-
-
-     
+</section>     
     </div>
     <script>
 
@@ -138,20 +135,21 @@ let store = new Vue({
                                         function (json) {
 
                                             store.status = json;
-                                            /*
+                                            
                                             const lessonID = lesson._id
+                                        
                                             const spacecounter = lesson.space
-                                            const spacecount = {space :spacecounter--}
+                                            const spacecount = {space : 3}
                                             // save the returned JSON object to
                                             // 'lessons' data property
                                             store.status = lessonID;
-                                            fetch('http://localhost:3000/collection/lessons/lessonID',{
+                                            fetch('http://localhost:3000/collection/lessons/${lessonID}',{
                                             method: "PUT", // set the HTTP method as 'POST'
                                             headers: {
                                                 'Content-Type': 'application/json', // set the data type as JSON
                                             }, body: JSON.stringify(spacecount), // need to stringify the JSON object
                                                  }).then(function (response) {})
-                                                 */
+                                                 
                     
                                         });
                                         response.json()
