@@ -41,6 +41,7 @@
 </section>     
     </div>
     <script>
+        var less = ""
 
 let store = new Vue({
             el: '#store',
@@ -70,6 +71,7 @@ let store = new Vue({
                                         // save the returned JSON object to
                                         // 'lessons' data property
                                         store.lessons = json;
+                                        less = json._id;
                                         for( i in json){
                                             console.log(i)
                                         }
@@ -143,11 +145,13 @@ let store = new Vue({
                                             // save the returned JSON object to
                                             // 'lessons' data property
                                             store.status = lessonID;
+
                                             fetch('http://localhost:3000/collection/lessons/${lessonID}',{
                                             method: "PUT", // set the HTTP method as 'POST'
                                             headers: {
                                                 'Content-Type': 'application/json',
                                                 'mode' : 'no-cors'
+                                                
                                              // set the data type as JSON
                                             }, body: JSON.stringify(spacecount), // need to stringify the JSON object
                                                  }).then(function (response) {})
